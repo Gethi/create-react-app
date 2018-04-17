@@ -35,6 +35,14 @@ module.exports = function(
   // Copy over some of the devDependencies
   appPackage.dependencies = appPackage.dependencies || {};
 
+
+  appPackage.["lint-staged"] = {
+    "src/**/*.{js,jsx,json,css}": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
+  };
+
   // Setup the script rules
   appPackage.scripts = {
     start: 'react-scripts start',
