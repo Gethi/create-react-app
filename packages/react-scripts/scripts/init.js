@@ -36,7 +36,7 @@ module.exports = function(
   appPackage.dependencies = appPackage.dependencies || {};
 
 
-  appPackage.["lint-staged"] = {
+  appPackage["lint-staged"] = {
     "src/**/*.{js,jsx,json,css}": [
       "prettier --single-quote --write",
       "git add"
