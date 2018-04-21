@@ -1,7 +1,8 @@
 const {
   scriptsToAdd,
   dependenciesToAdd,
-  dependenciesToRemove
+  dependenciesToRemove,
+  rulesToAdd
 } = require('./config');
 
 const {
