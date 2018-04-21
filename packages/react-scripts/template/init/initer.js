@@ -6,10 +6,8 @@ const {
 } = require('./config');
 
 const {
-  askForToken,
   writePackageJson,
   deleteFolderRecursive,
-  addTokenToNpmrc,
   installPackages,
   removeIniterDependencies
 } = require('./helpers');
@@ -21,9 +19,7 @@ for(rule in rulesToAdd) {
   packageJson[rule] = rulesToAdd[rule];
 }
 
-askForToken()
-  .then(addTokenToNpmrc)
-  .then(installPackages)
+installPackages()
   .then(removeIniterDependencies.bind(null, dependenciesToRemove, packageJson))
   .then(writePackageJson.bind(null, packageJson))
   .then(installPackages)
