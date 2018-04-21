@@ -8,7 +8,7 @@ module.exports = {
   writePackageJson(data) {
     const stringifiedPackageJson = JSON.stringify(data, null, 4);
 
-    fs.writeFileSync(path.resolve(__dirname, '../package.json'), stringifiedPackageJson);
+    return fs.writeFileSync(path.resolve(__dirname, '../package.json'), stringifiedPackageJson);
   },
 
   deleteFolderRecursive(pathToFolder) {
@@ -54,8 +54,13 @@ module.exports = {
   },
 
   removeIniterDependencies(dependenciesToRemove, packageJson) {
-    dependenciesToRemove.forEach((depName) => {
-      delete packageJson[depName];
-    });
+    return new Promise(
+      (resolve,reject)=>{
+        dependenciesToRemove.forEach((depName) => {
+          delete packageJson[depName];
+        });
+        resolve();
+      }
+    )
   }
 };
