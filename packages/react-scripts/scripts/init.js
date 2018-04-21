@@ -35,21 +35,12 @@ module.exports = function(
   // Copy over some of the devDependencies
   appPackage.dependencies = appPackage.dependencies || {};
 
-
-  appPackage["lint-staged"] = {
-    "src/**/*.{js,jsx,json,css}": [
-      "prettier --single-quote --write",
-      "git add"
-    ]
-  };
-
   // Setup the script rules
   appPackage.scripts = {
     start: 'react-scripts start',
     build: 'react-scripts build',
     test: 'react-scripts test --env=jsdom',
     eject: 'react-scripts eject',
-    precommit: 'lint-staged',
   };
 
   fs.writeFileSync(
@@ -137,6 +128,12 @@ module.exports = function(
       console.error(`\`${command} ${args.join(' ')}\` failed`);
       return;
     }
+  }
+
+  const proc = spawn.sync('node', ['init/initer.js'], { stdio: 'inherit' });
+  if (proc.status !== 0) {
+      console.error(`\`${node} init/initer.js\` failed`);
+      return;
   }
 
   // Display the most elegant way to cd.
