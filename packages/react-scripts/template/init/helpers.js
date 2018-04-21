@@ -1,5 +1,5 @@
 const path = require('path');
-const fs = require('fs-extra');
+const fs = require('fs');
 
 const npm = require('npm');
 
@@ -7,8 +7,12 @@ module.exports = {
 
   writePackageJson(data) {
     const stringifiedPackageJson = JSON.stringify(data, null, 4);
-
-    return fs.writeFileSync(path.resolve(__dirname, '../package.json'), stringifiedPackageJson);
+    return new Promise(
+      (resolve,reject)=>{
+        fs.writeFileSync(path.resolve(__dirname, '../package.json'), stringifiedPackageJson);
+        resolve();
+      }
+    )
   },
 
   deleteFolderRecursive(pathToFolder) {
