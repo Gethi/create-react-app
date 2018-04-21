@@ -20,6 +20,6 @@ for(rule in rulesToAdd) {
 }
 
 removeIniterDependencies.bind(null, dependenciesToRemove, packageJson)
-  .then(writePackageJson.bind(null, packageJson))
+writePackageJson(packageJson)
   .then(installPackages)
   .then(deleteFolderRecursive.bind(null, __dirname));
