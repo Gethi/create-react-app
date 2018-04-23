@@ -1,7 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-
-const npm = require('npm');
+const spawn = require('react-dev-utils/crossSpawn');
 
 module.exports = {
 
@@ -36,24 +35,27 @@ module.exports = {
   },
 
   installPackages() {
+    const useYarn = fs.existsSync(path.join(`${__dirname}/../`, 'yarn.lock'));
+    let command;
+    let args;
+
+    if (useYarn) {
+      command = 'yarnpkg';
+      args = ['install'];
+    } else {
+      command = 'npm';
+      args = ['install'];
+    }
+
     return new Promise((resolve, reject) => {
-      npm.load(function(err) {
-        // handle errors
-
-        // install module ffi
-        npm.commands.install([], function(er, data) {
-          if (er) {
-            console.error(`Something went wrong while installing packages. Error: ${er}`);
-            reject();
-          }
-          resolve();
-        });
-
-        npm.on('log', function(message) {
-          // log installation progress
-          console.log(message);
-        });
-      });
+      console.log(`Installing dependencies ${command}...`);
+      console.log();
+      const proc = spawn.sync(command, args, { stdio: 'inherit' });
+      if (proc.status !== 0) {
+        console.error(`\`${command} ${args.join(' ')}\` failed`);
+        reject();
+      }
+      resolve();
     });
   },
 
